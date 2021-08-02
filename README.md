@@ -26,7 +26,7 @@ Added image url to API call.
 
 [Project-Demo](https://quizzical-gates-823182.netlify.app/)
 
-![Screenshot from 2021-08-02 00-23-00](https://user-images.githubusercontent.com/75113766/127785699-454b3a21-2464-445a-ac5b-0942fbf0d070.png)
+![Screenshot from 2021-08-02 00-23-00](https://user-images.githubusercontent.com/75113766/127868556-a18a9628-23b2-4e76-8c5f-cd2df6e33c69.png)
 
 #### React Used
 
