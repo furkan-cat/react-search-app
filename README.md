@@ -18,9 +18,7 @@
 Type on the input field to see different data by filtering method.
 
 Limitted amount of data returned from a API call via axios.
-Filtered data with 3 character limit
-SCSS and BEM
-Added image url to API call.
+Filtered data with 3 character limit SCSS and BEM
 
 [Project-Demo](https://quizzical-gates-823182.netlify.app/)
 
