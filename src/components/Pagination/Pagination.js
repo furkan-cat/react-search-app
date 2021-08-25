@@ -13,74 +13,13 @@ const Pagination = () => {
   const { openList } = useSelector((state) => state.openList);
   const { currentPage } = useSelector((state) => state.currentPage);
   const { currentButton } = useSelector((state) => state.currentButton);
+
   const dispatch = useDispatch();
 
   const orderByClickHandler = () => {
     dispatch({ type: "ClICK_TYPE", payload: true });
     dispatch({ type: "OPEN_LIST_TYPE", payload: !openList });
   };
-
-  const indexOfLastData = currentPage * dataPerPage;
-  const indexOfFirstData = indexOfLastData - dataPerPage;
-  const currentFilteredData = filteredData.slice(
-    indexOfFirstData,
-    indexOfLastData
-  );
-
-  const totalPagesNum = Math.ceil(filteredData.length / dataPerPage);
-
-  const numberOfPages = [];
-
-  for (let i = 1; i <= totalPagesNum; i++) {
-    numberOfPages.push(i);
-  }
-
-  console.log(currentFilteredData);
-
-  useEffect(() => {
-    dispatch({ type: "CURRENT_PAGE_TYPE", payload: currentButton });
-  }, [currentButton, currentPage]);
-
-  const arr = [1, 2, 3, 5, 0];
-  function desc(a, b) {
-    return b - a;
-  }
-
-  if (sorted == "nameAsc") {
-    filteredData.sort(function (a, b) {
-      if (a[0] < b[0]) {
-        return -1;
-      }
-      if (a[0] > b[0]) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
-  if (sorted == "nameDesc") {
-    filteredData.sort((a, b) => {
-      if (a[0] > b[0]) {
-        return -1;
-      }
-      if (a[0] < b[0]) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
-  if (sorted == "yearAsc") {
-    filteredData.sort(function (a, b) {
-      return a[3].slice(6, 10) - b[3].slice(6, 10);
-    });
-  }
-
-  if (sorted == "yearDesc") {
-    filteredData.sort(function (a, b) {
-      return b[3].slice(6, 10) - a[3].slice(6, 10);
-    });
-  }
 
   const prevButtonHandler = () => {
     dispatch({
@@ -104,6 +43,59 @@ const Pagination = () => {
         currentPage === numberOfPages.length ? currentPage : currentPage + 1,
     });
   };
+
+  const indexOfLastData = currentPage * dataPerPage;
+  const indexOfFirstData = indexOfLastData - dataPerPage;
+  const slicedFilteredData = filteredData.slice(
+    indexOfFirstData,
+    indexOfLastData
+  );
+  const totalPagesNum = Math.ceil(filteredData.length / dataPerPage);
+  const numberOfPages = [];
+
+  for (let i = 1; i <= totalPagesNum; i++) {
+    numberOfPages.push(i);
+  }
+
+  useEffect(() => {
+    dispatch({ type: "CURRENT_PAGE_TYPE", payload: currentButton });
+  }, [currentButton, currentPage]);
+
+  if (sorted === "nameAsc") {
+    filteredData.sort(function (a, b) {
+      if (a[0] < b[0]) {
+        return -1;
+      }
+      if (a[0] > b[0]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  if (sorted === "nameDesc") {
+    filteredData.sort((a, b) => {
+      if (a[0] > b[0]) {
+        return -1;
+      }
+      if (a[0] < b[0]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  if (sorted === "yearAsc") {
+    filteredData.sort(function (a, b) {
+      return a[3].slice(6, 10) - b[3].slice(6, 10);
+    });
+  }
+
+  if (sorted === "yearDesc") {
+    filteredData.sort(function (a, b) {
+      return b[3].slice(6, 10) - a[3].slice(6, 10);
+    });
+  }
 
   return (
     <React.Fragment>
@@ -148,39 +140,39 @@ const Pagination = () => {
       ) : null}
       {visible &&
         clicked &&
-        currentFilteredData.map((x, i) => (
-          <>
-            <div className="autocom-box" key={i}>
-              <div className="autocom-box__item">
-                <li>
-                  {x[4]} - {x[5]}
-                </li>
-                <li>
-                  {x[0]} - {x[3].slice(6, 10)}
-                </li>
-              </div>
-              <div className="autocom-box__item">
-                <li className="email">Email: {x[5]}</li>
-              </div>
+        slicedFilteredData.map((x) => (
+          <div className="autocom-box" key={x.toString()}>
+            <div className="autocom-box__item">
+              <li>
+                {x[4]} - {x[5]}
+              </li>
+              <li>
+                {x[0]} - {x[3].slice(6, 10)}
+              </li>
             </div>
-          </>
+            <div className="autocom-box__item">
+              <li className="email">Email: {x[5]}</li>
+            </div>
+          </div>
         ))}
-
       {clicked && visible && filteredData.length !== 0 && (
         <>
           <ul className="pagination-container">
             <li
-              className={`${
+              className={
                 currentButton === 1 ? "page-item disabled" : "page-item"
-              }`}
+              }
             >
               <a href="#!" onClick={() => prevButtonHandler(currentPage)}>
                 Prev
               </a>
             </li>
-            {numberOfPages.map((page, i) => {
+            {numberOfPages.map((page) => {
               return (
-                <li key={i} className={currentButton === page && "active"}>
+                <li
+                  key={page.toString()}
+                  className={currentButton === page ? "active" : ""}
+                >
                   <a
                     href="#!"
                     className="page-link"

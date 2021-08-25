@@ -1,9 +1,3 @@
-// export const visible = () => {
-//   return {
-//     type: "VISIBLE_TYPE",
-//   };
-// };
-
 export const fetching = () => async (dispatch) => {
   try {
     let response = await fetch("../mockData.json");
